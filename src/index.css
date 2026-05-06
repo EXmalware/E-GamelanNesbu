@@ -1,0 +1,693 @@
+:root {
+  --bronze-gradient: linear-gradient(135deg, #a87e43 0%, #d4af37 50%, #8b6b32 100%);
+  --gold-gradient: linear-gradient(135deg, #ffd700 0%, #fdb931 50%, #b8860b 100%);
+  --wood-dark: #2c1810;
+  --wood-light: #4a2c2a;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0a0502;
+  color: #f0e6d2;
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 150 L150 0 M-30 180 L180 -30' stroke='%23d4af37' stroke-width='1.5' fill='none' opacity='0.2'/%3E%3Ccircle cx='75' cy='75' r='8' fill='%23d4af37' opacity='0.15'/%3E%3Cpath d='M30 30 Q75 0 120 30 Q150 75 120 120 Q75 150 30 120 Q0 75 30 30' stroke='%23d4af37' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3C/svg%3E"),
+    url("https://www.transparenttextures.com/patterns/dark-wood.png");
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(26, 15, 10, 0.4) 0%, #0a0502 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Selection Screen */
+.selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  animation: fadeIn 1s ease-out;
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 3rem;
+}
+
+.instrument-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.instrument-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  filter: sepia(0.3) contrast(1.1);
+  transition: filter 0.3s;
+}
+
+.instrument-card:hover {
+  transform: translateY(-10px);
+  border-color: #d4af37;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.instrument-card h3 {
+  margin: 0.5rem 0;
+  color: #d4af37;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+
+.instrument-card p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Instrument View */
+.instrument-view {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.back-button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: #d4af37;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.instrument-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.instrument-header h1 {
+  font-size: 3rem;
+  margin: 0;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+/* Saron Layout */
+.saron-rancakan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, #4a2c2a 0%, #2c1810 100%);
+  padding: 3rem 4rem 1rem;
+  border-radius: 10px 10px 40px 40px;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8), inset 0 10px 30px rgba(0, 0, 0, 0.9);
+  position: relative;
+  border: 2px solid #5c3a21;
+  border-top: 15px solid #1a0f0a;
+}
+
+.saron-layout {
+  display: flex;
+  gap: 0.8rem;
+  position: relative;
+  z-index: 2;
+}
+
+.saron-key {
+  width: 70px;
+  height: 350px;
+  background: var(--bronze-gradient);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 2rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.1s;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5), inset 0 2px 10px rgba(255, 255, 255, 0.4);
+}
+
+.saron-key.active {
+  transform: translateY(4px);
+  filter: brightness(1.2);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.key-pin {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 30% 30%, #d4af37, #2c1810);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.key-pin.top {
+  top: 15px;
+}
+
+.key-pin.bottom {
+  bottom: 15px;
+}
+
+.key-label {
+  color: #2c1810;
+  font-weight: 800;
+  font-size: 1.5rem;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.key-hint {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 0.5rem;
+  z-index: 2;
+}
+
+/* Bonang Layout */
+.bonang-rancakan {
+  background: linear-gradient(145deg, #4a2c2a, #2c1810);
+  padding: 4rem;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0, 0, 0, 0.9);
+  border: 8px solid #5c3a21;
+}
+
+.bonang-layout {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+.bonang-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rope {
+  position: absolute;
+  background: #c2a077;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.rope.cross-1 {
+  width: 160%;
+  height: 6px;
+  top: 50%;
+  left: -30%;
+}
+
+.rope.cross-2 {
+  width: 6px;
+  height: 160%;
+  left: 50%;
+  top: -30%;
+}
+
+.bonang-kettle {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at 50% 30%, #ffd700 0%, #b8860b 70%, #2c1810 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.1s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6), inset 0 -5px 10px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.bonang-kettle::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: var(--gold-gradient);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.bonang-kettle.active {
+  transform: scale(0.95) translateY(4px);
+  filter: brightness(1.2);
+}
+
+/* Gong & Kenong Layout */
+.gong-kenong-stage {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem 1rem;
+}
+
+.gayor-stand.full-width {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  border-top: 40px solid #4a2c2a;
+  border-left: 30px solid #3d2319;
+  border-right: 30px solid #3d2319;
+  border-radius: 20px 20px 0 0;
+  box-shadow: inset 0 20px 30px rgba(0, 0, 0, 0.8), 0 30px 40px rgba(0, 0, 0, 0.5);
+  padding-top: 0;
+  padding-bottom: 20px;
+  gap: 1rem;
+}
+
+/* Wood carving decorations for Gayor */
+.gayor-stand.full-width::before,
+.gayor-stand.full-width::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffd700, #b8860b, #2c1810);
+  border-radius: 50% 50% 0 0;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.gayor-stand.full-width::before {
+  left: -45px;
+  transform: rotate(-20deg);
+}
+
+.gayor-stand.full-width::after {
+  right: -45px;
+  transform: rotate(20deg);
+}
+
+.hanging-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: -5px;
+  /* overlap with top beam */
+}
+
+.gong-rope {
+  width: 8px;
+  height: 60px;
+  background: repeating-linear-gradient(45deg, #c2a077, #c2a077 4px, #8b6b32 4px, #8b6b32 8px);
+  z-index: 1;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.hanging-group:nth-child(even) .gong-rope {
+  height: 120px;
+  /* Stagger heights like a real kempul set */
+}
+
+.gong-hanging {
+  background: radial-gradient(circle at 50% 50%, #d4af37 0%, #8b6b32 40%, #2c1810 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(212, 175, 55, 0.2);
+  border: 4px solid #1a0f0a;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.1s;
+}
+
+/* Boss / Pencu of the gong */
+.gong-hanging::before {
+  content: '';
+  position: absolute;
+  background: radial-gradient(circle at 50% 50%, #ffd700 0%, #b8860b 100%);
+  border-radius: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.gong-hanging.active {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
+}
+
+/* Sizes */
+.gong-hanging.kempul {
+  width: 120px;
+  height: 120px;
+}
+
+.gong-hanging.kempul::before {
+  width: 35px;
+  height: 35px;
+}
+
+.gong-hanging.kempul .key-label {
+  font-size: 1.2rem;
+}
+
+.gong-hanging.suwukan {
+  width: 180px;
+  height: 180px;
+}
+
+.gong-hanging.suwukan::before {
+  width: 50px;
+  height: 50px;
+}
+
+.gong-hanging.suwukan .key-label {
+  font-size: 1.2rem;
+}
+
+.gong-hanging {
+  /* Gong Ageng default */
+  width: 250px;
+  height: 250px;
+}
+
+.gong-hanging::before {
+  width: 70px;
+  height: 70px;
+}
+
+.gong-hanging .key-label {
+  font-size: 1.5rem;
+}
+
+/* Kenong Rancakan Layout */
+.kenong-rancakan {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.kenong-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  /* Boxes touch each other like a real rancakan */
+  max-width: 500px;
+  /* Forces wrapping into a 3-2-2 U-shape */
+  background: #3d2319;
+  /* Wooden frame color */
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 5px 15px rgba(255, 255, 255, 0.1);
+  border: 6px solid #2c1810;
+}
+
+.kenong-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  background: #1a0f0a;
+  /* Dark hole where the kettle sits */
+  border: 4px solid #4a2c2a;
+  /* Wooden dividers */
+  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.9);
+}
+
+.kenong-slot .rope.cross-1 {
+  width: 100%;
+  left: 0;
+}
+
+.kenong-slot .rope.cross-2 {
+  height: 100%;
+  top: 0;
+}
+
+.kenong-kettle {
+  width: 110px;
+  height: 110px;
+}
+
+/* Kendhang Layout */
+.kendhang-interactive {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #4a2c2a 0%, #2c1810 100%);
+  padding: 3rem;
+  border-radius: 100px;
+  border: 4px solid #5c3a21;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.drum-zone-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.drum-head-complex {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.drum-head-complex.large {
+  width: 240px;
+  height: 240px;
+}
+
+.drum-head-complex.medium {
+  width: 180px;
+  height: 180px;
+}
+
+.drum-head-complex.small {
+  width: 130px;
+  height: 130px;
+}
+
+.head-leather {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #f9f3e6 0%, #e8d5b5 60%, #c4a484 100%);
+  border-radius: 50%;
+  border: 12px solid #2c1810;
+}
+
+.head-label {
+  position: relative;
+  z-index: 2;
+  font-weight: 900;
+  color: #4a2c2a;
+}
+
+/* UI Elements */
+.scale-switcher {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  background: var(--glass);
+  padding: 0.5rem;
+  border-radius: 30px;
+}
+
+.scale-switcher button {
+  background: transparent;
+  border: none;
+  color: #f0e6d2;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.scale-switcher button.active {
+  background: var(--gold-gradient);
+  color: #2c1810;
+}
+
+.error-banner {
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid #dc3545;
+  color: #ff8e9a;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--glass-border);
+  border-top: 5px solid #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.saron-key.peking {
+  height: 200px;
+  width: 50px;
+}
+
+.bonang-layout.panerus {
+  gap: 1.5rem;
+}
+
+.bonang-kettle.small-kettle {
+  width: 70px;
+  height: 70px;
+}
+
+.bonang-kettle.empty {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.gambang-layout {
+  display: flex;
+  gap: 4px;
+}
+
+.gambang-key {
+  width: 45px;
+  height: 400px;
+  background: linear-gradient(to bottom, #8b5a33 0%, #5c3a21 50%, #3d2319 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2rem;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.gambang-key.active {
+  transform: translateY(10px);
+  filter: brightness(1.3);
+}
+
+@media (max-width: 1200px) {
+  .gong-kenong-stage {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kenong-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .saron-key {
+    width: 45px;
+    height: 250px;
+  }
+
+  .bonang-layout {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .kenong-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
