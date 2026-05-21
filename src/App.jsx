@@ -182,6 +182,13 @@ function App() {
   const [activeNotes, setActiveNotes] = useState({});
   const [kendhangView, setKendhangView] = useState('pad'); // 'pad' or 'simple'
 
+  useEffect(() => {
+    if (!window.hasShownAlert) {
+      alert("© Malware X David Faizal");
+      window.hasShownAlert = true;
+    }
+  }, []);
+
   const handleSelectInstrument = async (id) => {
     setLoading(true);
     try {
