@@ -1373,4 +1373,22 @@ body {
   .kendhang-panel.pad-view .pad-note { font-size: 0.55rem; }
 }
 
+/* App Footer Styling */
+.app-footer {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--ui-font);
+  z-index: 100;
+  text-transform: uppercase;
+  pointer-events: none;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 

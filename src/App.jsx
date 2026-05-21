@@ -286,12 +286,18 @@ function App() {
       <div className="loading-screen">
         <p>LOADING INSTRUMENT</p>
         <div className="loading-bar"></div>
+        <footer className="app-footer">© Malware X David Faizal</footer>
       </div>
     );
   }
 
   if (!selectedId) {
-    return <RoomHub onSelect={handleSelectInstrument} />;
+    return (
+      <>
+        <RoomHub onSelect={handleSelectInstrument} />
+        <footer className="app-footer">© Malware X David Faizal</footer>
+      </>
+    );
   }
 
   const currentInstrument = INSTRUMENTS.find(i => i.id === selectedId);
@@ -507,6 +513,7 @@ function App() {
       <div className="keyboard-hint-overlay">
         USE KEYS 1-8 / Q-Y TO PLAY • DRAG DOWN TO PEPET (DAMP) • S: SLENDRO • P: PELOG
       </div>
+      <footer className="app-footer">© Malware X David Faizal</footer>
     </div>
   );
 }
