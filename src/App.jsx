@@ -184,7 +184,7 @@ function App() {
 
   useEffect(() => {
     if (!window.hasShownAlert) {
-      alert("© Malware X David Faizal");
+      alert("©Malware X David Faizal");
       window.hasShownAlert = true;
     }
   }, []);
